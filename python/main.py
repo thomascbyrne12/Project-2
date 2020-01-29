@@ -2,7 +2,7 @@
 import pandas as pd
 
 # Read in data
-cricket_data = pd.read_csv("C://Users//Thomas Byrne//Documents//GitHub//Project-2//icc-test-cricket-runs//ICC Test Batting Figures.csv", encoding="ISO-8859-1")
+cricket_data = pd.read_csv("C://Users//Thomas Byrne//Documents//GitHub//Project-2//data//ICC Test Batting Figures.csv", encoding="ISO-8859-1")
 
 # Subsets of Table Data
 high_scores = cricket_data[['Player', 'HS']]
