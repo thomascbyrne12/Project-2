@@ -1,13 +1,24 @@
 // Link to server
 const url = "http://localhost:5000";
 
+var dropdown = d3.select("#selDataset");
+
 // Reads in JSON data
 d3.json(url).then(function(cricket_data) {
-    console.log(cricket_data);
+
     create_run_bar(cricket_data);
     create_averages(cricket_data);
-    create_career(cricket_data);
+    create_career(cricket_data)
+
+    for (var j = 0; j < cricket_data.length; j++) {
+    dropdown.append("option").text(cricket_data[j].playername).property("value");
+    };
+
+    initDash()
+
 });
+
+
 
 function create_run_bar(data) {
     
@@ -86,45 +97,94 @@ function create_averages(data) {
 };
 
 function create_career(data) {
-
-    // Filling data for career length plot
-    var push1 = [
-        data[314].careerlength,
-        data[681].careerlength,
-        data[144].careerlength,
-        data[0].careerlength,
-        data[276].careerlength,
-        data[436].careerlength,
-        data[2486].careerlength,
-        data[76].careerlength,
-        data[258].careerlength,
-        data[334].careerlength
-    ];
-
-    // Filling data for player names plot
-    var push2 = [
-        data[314].playername,
-        data[681].playername,
-        data[144].playername,
-        data[0].playername,
-        data[276].playername,
-        data[436].playername,
-        data[2486].playername,
-        data[76].playername,
-        data[258].playername,
-        data[334].playername
-    ];
-
-    // Define data array
-    var data = [{
-        x: push1,
-        y: push2,
-        type: 'bar',
-    }];
-
-    var layout = {
-        title: 'Longest Internation Careers'
-    };
-
-    Plotly.newPlot('upright-bar', data, layout);
+     
+        // Filling data for career length plot
+        var push1 = [
+            data[314].careerlength,
+            data[681].careerlength,
+            data[144].careerlength,
+            data[0].careerlength,
+            data[276].careerlength,
+            data[436].careerlength,
+            data[2486].careerlength,
+            data[76].careerlength,
+            data[258].careerlength,
+            data[334].careerlength
+        ];
+    
+        // Filling data for player names plot
+        var push2 = [
+            data[314].playername,
+            data[681].playername,
+            data[144].playername,
+            data[0].playername,
+            data[276].playername,
+            data[436].playername,
+            data[2486].playername,
+            data[76].playername,
+            data[258].playername,
+            data[334].playername
+        ];
+    
+        // Define data array
+        var data = [{
+            x: push2,
+            y: push1,
+            type: 'bar',
+        }];
+    
+        var layout = {
+            title: 'Longest International Careers'
+        };
+    
+        Plotly.newPlot('upright-bar', data, layout);
 };
+
+function initDash() {
+
+    var dropdown = d3.select("#selDataset");
+
+    var player = dropdown.property("value");
+  
+    d3.json(url).then(function(cricket_data) {
+
+        const arr1 = cricket_data.filter(d => d.playername === player);
+
+        console.log(arr1)
+
+        d3.select("#pname").text(arr1[0].playername)
+        d3.select("#clength").text(arr1[0].careerlength) 
+        d3.select("#country").text(arr1[0].country)
+        d3.select("#runs").text(arr1[0].runs)
+        d3.select("#matches").text(arr1[0].matches)
+        d3.select("#score").text(arr1[0].hs)
+    })
+   
+}
+
+d3.selectAll("#selDataset").on("change", updateDash);
+
+function updateDash() {
+
+    console.log("it worked")
+    var dropdownMenu = d3.select("#selDataset");
+
+    var player = dropdownMenu.property("value");
+    console.log(player)
+
+    d3.json(url).then(function(cricket_data) {
+
+        const arr1 = cricket_data.filter(d => d.playername === player);
+
+        console.log(arr1)
+
+        d3.select("#pname").text(arr1[0].playername).transition().duration(1000)
+        d3.select("#clength").text(arr1[0].careerlength).transition().duration(1000)
+        d3.select("#country").text(arr1[0].country).transition().duration(1000)
+        d3.select("#runs").text(arr1[0].runs).transition().duration(1000)
+        d3.select("#matches").text(arr1[0].matches).transition().duration(1000)
+        d3.select("#score").text(arr1[0].hs).transition().duration(1000)
+    })
+
+}
+
