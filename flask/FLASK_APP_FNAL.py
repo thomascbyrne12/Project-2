@@ -15,13 +15,13 @@ from flask_sqlalchemy import SQLAlchemy
 # FLASK APP INITIALIZED
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:iam7437lock@localhost/cricket'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/cricket'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-DATABASE_URI = 'postgresql://postgres:iam7437lock@localhost/cricket'
+DATABASE_URI = 'postgresql://postgres:postgreslock@localhost/cricket'
 
 engine = create_engine(DATABASE_URI)
 
